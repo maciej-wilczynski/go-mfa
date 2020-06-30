@@ -1,19 +1,16 @@
 package awsclient
 
 import (
-	"log"
-	"os"
+	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/sts"
 )
 
 func (c *AWSClient) Export() {
-	log.Printf("Exporting key %s", c.sessionCredentials.AccessKeyId)
-
-	os.Setenv("AWS_ACCESS_KEY_ID", c.sessionCredentials.AccessKeyId)
-	os.Setenv("AWS_SECRET_ACCESS_KEY", c.sessionCredentials.SecretAccessKey)
-	os.Setenv("AWS_SESSION_TOKEN", c.sessionCredentials.SessionToken)
+	fmt.Printf("export AWS_ACCESS_KEY_ID=%s\n", c.sessionCredentials.AccessKeyId)
+	fmt.Printf("export AWS_SECRET_ACCESS_KEY=%s\n", c.sessionCredentials.SecretAccessKey)
+	fmt.Printf("export AWS_SESSION_TOKEN=%s\n", c.sessionCredentials.SessionToken)
 }
 
 func (c *AWSClient) AssumeToRole(targetProfile Profile, pin string) error {
