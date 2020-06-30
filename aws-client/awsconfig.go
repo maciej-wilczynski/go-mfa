@@ -2,12 +2,13 @@ package awsclient
 
 import (
 	"fmt"
+	"io/ioutil"
 
 	"gopkg.in/ini.v1"
 )
 
 const (
-	DefaultConfigFile = "/Users/maciej.wilczynski/.aws/config"
+	DefaultConfigFile = "~/.aws/config"
 )
 
 type Profile struct {
@@ -27,7 +28,12 @@ type Credential struct {
 }
 
 func LoadProfile(filename, profile string) (p Profile, err error) {
-	cfg, err := ini.Load(filename)
+	f, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return p, err
+	}
+
+	cfg, err := ini.Load(f)
 	if err != nil {
 		return p, err
 	}
